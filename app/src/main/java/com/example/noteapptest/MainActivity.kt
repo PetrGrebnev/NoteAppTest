@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {
 
         supportFragmentManager
             .beginTransaction()
-            .add(R.id.fragment_container, HomeScreen(), null)
+            .add(R.id.fragment_container, HomeFragment(), null)
             .commit()
     }
 

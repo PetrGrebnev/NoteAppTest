@@ -1,6 +1,6 @@
 package com.example.noteapptest
 
-data class NewNote (
+data class Note (
 val titleNote: String,
 val textNote: String
         )

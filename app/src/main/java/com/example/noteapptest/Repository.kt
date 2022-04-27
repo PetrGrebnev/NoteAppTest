@@ -1,18 +1,15 @@
 package com.example.noteapptest
 
-class Repository {
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 
-    private var noteList = mutableListOf<NewNote>()
-    var notes: List<NewNote> = ViewModelNoteCreate().notesCreate
-        private set
+object Repository {
+    private val _notes = MutableLiveData<List<Note>>()
+    val notes: LiveData<List<Note>> = _notes
+    private var listNote: MutableList<Note> = mutableListOf()
 
     fun addNote(title: String, text: String){
-        noteList.add(newNote(title, text))
+        listNote.add(Note(title, text))
+        _notes.value = listNote
     }
-
-    private fun newNote(title: String, text: String) =
-        NewNote (
-            title,
-            text
-        )
 }
