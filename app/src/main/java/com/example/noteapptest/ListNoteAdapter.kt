@@ -25,8 +25,8 @@ class ListNoteAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = notes[position]
         holder.apply {
-            itemTitleNote.text = item.titleNote
-            itemTextNote.text = item.textNote
+            itemTitleNote.text = item.title
+            itemTextNote.text = item.text
         }
     }
 

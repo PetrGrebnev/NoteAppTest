@@ -5,7 +5,6 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.noteapptest.databinding.HomeScreenBinding
@@ -16,6 +15,9 @@ class HomeFragment: Fragment(R.layout.home_screen){
     private val binding
         get() = bindingHomeScreen!!
 
+    private lateinit var viewModel: HomeViewModel
+    private lateinit var viewModelFactory: HomeViewModelFactory
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
@@ -24,10 +26,14 @@ class HomeFragment: Fragment(R.layout.home_screen){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bindingHomeScreen = HomeScreenBinding.bind(view)
+        val repository = Repository(
+            NoteDatabase.getInstance(requireContext()).noteDatabaseDAO,
+            AppExecutor.ioExecutor
+        )
+        viewModelFactory = HomeViewModelFactory(repository)
+        viewModel = ViewModelProvider(this, viewModelFactory)[HomeViewModel::class.java]
 
-        val viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
-
-        viewModel.notes.observe(viewLifecycleOwner){
+        viewModel.getNotes().observe(viewLifecycleOwner){
             binding.listNote.adapter = ListNoteAdapter(layoutInflater, it)
         }
 
@@ -36,6 +42,7 @@ class HomeFragment: Fragment(R.layout.home_screen){
                 parentFragmentManager
                     .beginTransaction()
                     .replace(R.id.fragment_container, CreateNoteFragment(), null)
+                    .addToBackStack(null)
                     .commit()
             }
            listNote.layoutManager = LinearLayoutManager(requireContext())

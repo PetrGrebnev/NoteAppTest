@@ -1,15 +1,22 @@
 package com.example.noteapptest
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import java.util.concurrent.ExecutorService
 
-object Repository {
-    private val _notes = MutableLiveData<List<Note>>()
-    val notes: LiveData<List<Note>> = _notes
-    private var listNote: MutableList<Note> = mutableListOf()
+class Repository(private val db: NoteDatabaseDAO, private val ioExecutor: ExecutorService) {
+//    private val _notes = MutableLiveData<List<Note>>()
+//    private var listNote: MutableList<Note> = mutableListOf()
+//
+//    val notes: LiveData<List<Note>> = _notes
 
     fun addNote(title: String, text: String){
-        listNote.add(Note(title, text))
-        _notes.value = listNote
+        ioExecutor.execute{
+            db.insert(Note(title,text))
+        }
     }
+
+//        listNote.add(Note(title, text))
+//        _notes.value = listNote
+    fun getAllNote() = db.getAllNotes()
+
+
 }
