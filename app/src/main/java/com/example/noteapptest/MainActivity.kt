@@ -2,28 +2,30 @@ package com.example.noteapptest
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
+import android.view.View
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import com.example.noteapptest.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
+
+    private val backStep: Boolean
+        get() = supportFragmentManager.backStackEntryCount > 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setSupportActionBar(binding.homeToolbar)
-
-        supportFragmentManager
-            .beginTransaction()
-            .add(R.id.fragment_container, HomeFragment(), null)
-            .commit()
+        supportActionBar?.setDisplayHomeAsUpEnabled(backStep)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        val inflater = menuInflater
-        inflater.inflate(R.menu.menu_home, menu)
-        return super.onCreateOptionsMenu(menu)
+    override fun onSupportNavigateUp(): Boolean {
+        return if (backStep){
+            supportFragmentManager.popBackStack()
+            false
+        } else {
+            finish()
+            true
+        }
     }
 }

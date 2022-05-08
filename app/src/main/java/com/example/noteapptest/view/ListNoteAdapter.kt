@@ -1,19 +1,45 @@
-package com.example.noteapptest
+package com.example.noteapptest.view
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.example.noteapptest.Note
+import com.example.noteapptest.R
 
 class ListNoteAdapter(
     private val layoutInflater: LayoutInflater,
-    private val notes: List<Note>
+    private val onClickListener: OnNoteClickListener? = null
 ): RecyclerView.Adapter<ListNoteAdapter.ViewHolder>(){
 
-    class ViewHolder (itemView: View): RecyclerView.ViewHolder(itemView){
+    private var notes: MutableList<Note> = mutableListOf()
+
+    fun setListNote(notes: List<Note>){
+        this.notes = notes.toMutableList()
+        notifyDataSetChanged()
+    }
+
+    fun newNote(note: Note){
+        this.notes.add(note)
+        notifyItemChanged(notes.size)
+    }
+
+    interface OnNoteClickListener{
+        fun onNoteClick(note: Note)
+    }
+
+    inner class ViewHolder (itemView: View): RecyclerView.ViewHolder(itemView){
         val itemTitleNote: TextView = itemView.findViewById(R.id.item_title_note)
         val itemTextNote: TextView = itemView.findViewById(R.id.item_text_note)
+        init {
+            itemView.setOnClickListener{
+                onClickListener?.onNoteClick(notes[adapterPosition])
+            }
+        }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

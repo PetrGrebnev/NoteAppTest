@@ -4,13 +4,14 @@
     tools:context=".MainActivity">
 
     <item
-        android:id="@+id/app_bar_search"
+        android:id="@+id/save"
         android:title="Ok"
+        android:icon="@drawable/ic_baseline_check_24"
         app:actionViewClass="android.widget.SearchView"
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/back"
         android:orderInCategory="1"
         android:title="Back"
         app:showAsAction="ifRoom" />

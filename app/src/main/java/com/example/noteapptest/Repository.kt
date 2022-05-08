@@ -2,11 +2,10 @@ package com.example.noteapptest
 
 import java.util.concurrent.ExecutorService
 
-class Repository(private val db: NoteDatabaseDAO, private val ioExecutor: ExecutorService) {
-//    private val _notes = MutableLiveData<List<Note>>()
-//    private var listNote: MutableList<Note> = mutableListOf()
-//
-//    val notes: LiveData<List<Note>> = _notes
+class Repository(
+    private val db: NoteDatabaseDAO,
+    private val ioExecutor: ExecutorService)
+{
 
     fun addNote(title: String, text: String){
         ioExecutor.execute{
@@ -14,9 +13,14 @@ class Repository(private val db: NoteDatabaseDAO, private val ioExecutor: Execut
         }
     }
 
-//        listNote.add(Note(title, text))
-//        _notes.value = listNote
     fun getAllNote() = db.getAllNotes()
 
+    fun deleteAll() {
+        ioExecutor.execute{
+            db.deleteAllNotes()
+        }
+    }
+
+    fun getNoteById(noteId: Long) = db.getNoteById(noteId)
 
 }

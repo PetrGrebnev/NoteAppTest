@@ -1,27 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    tools:background="#ffff00"
-    android:padding="16dp">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:id="@+id/item_title_note"
+    <data>
+
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#000"
-        android:textSize="20sp"
-        tools:text="Заголовок" />
+        android:orientation="vertical"
+        android:background="@drawable/container_items"
+        tools:background="#ffff00"
+        android:padding="16dp">
 
-    <TextView
-        android:id="@+id/item_text_note"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:maxLines="3"
-        android:textColor="#222"
-        android:textSize="16sp"
-        tools:text="Текст заметки" />
-</LinearLayout>
+        <TextView
+            android:id="@+id/item_title_note"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="24sp"
+            tools:text="Заголовок"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/item_text_note"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:textColor="#222"
+            android:textSize="16sp"
+            tools:text="Текст заметки" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>
