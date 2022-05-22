@@ -16,11 +16,13 @@ class CreateNoteViewModel(
 
     private var currentNoteCache: Note? = null
 
-
-    fun addNewNote(title: String, text: String){
-        rep.addNote(title, text)
+    fun updateOrAddNote(title: String, text: String, noteId: Long){
+        if (noteId == 0L){
+            rep.addNote(title, text)
+        } else {
+            rep.updateNote(title, text, noteId)
+        }
     }
-
 
     init {
 

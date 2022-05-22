@@ -8,6 +8,7 @@
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_margin="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -20,7 +21,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#000"
+            android:ellipsize="end"
             android:textSize="24sp"
+            android:maxLines="1"
             tools:text="Заголовок"
             android:textStyle="bold"/>
 
@@ -34,5 +37,15 @@
             android:textColor="#222"
             android:textSize="16sp"
             tools:text="Текст заметки" />
+
+        <ImageButton
+            android:id="@+id/delBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_anchor="@+id/item_title_note"
+            app:layout_anchorGravity="end|center"
+            android:background="@drawable/container_items"
+            app:srcCompat="@android:drawable/ic_delete" />
+
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

@@ -1,5 +1,6 @@
 package com.example.noteapptest.view
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +18,7 @@ class ListNoteAdapter(
 
     private var notes: MutableList<Note> = mutableListOf()
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setListNote(notes: List<Note>){
         this.notes = notes.toMutableList()
         notifyDataSetChanged()
@@ -29,14 +31,19 @@ class ListNoteAdapter(
 
     interface OnNoteClickListener{
         fun onNoteClick(note: Note)
+        fun delNote(note: Note)
     }
 
     inner class ViewHolder (itemView: View): RecyclerView.ViewHolder(itemView){
         val itemTitleNote: TextView = itemView.findViewById(R.id.item_title_note)
         val itemTextNote: TextView = itemView.findViewById(R.id.item_text_note)
+        val itemDelBtn: ImageButton = itemView.findViewById(R.id.delBtn)
         init {
             itemView.setOnClickListener{
                 onClickListener?.onNoteClick(notes[adapterPosition])
+            }
+            itemDelBtn.setOnClickListener{
+                onClickListener?.delNote(notes[adapterPosition])
             }
         }
 

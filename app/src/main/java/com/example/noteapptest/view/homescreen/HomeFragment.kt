@@ -7,10 +7,13 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.noteapptest.*
 import com.example.noteapptest.databinding.HomeScreenBinding
@@ -24,6 +27,7 @@ class HomeFragment: Fragment(R.layout.home_screen){
     private val binding
         get() = bindingHomeScreen
     private lateinit var controller: NavController
+    private var lineOrColumns = true
 
     private lateinit var adapter: ListNoteAdapter
 
@@ -49,7 +53,17 @@ class HomeFragment: Fragment(R.layout.home_screen){
         adapter = ListNoteAdapter(layoutInflater,
             object : OnNoteClickListener {
                 override fun onNoteClick(note: Note) {
-                    controller.navigate(HomeFragmentDirections.actionHomeFragmentToCreateNoteFragment())
+                    var bundle = bundleOf(ARGUMENT_NOTE_ID to note.noteId)
+                    controller.navigate(
+                        R.id.action_homeFragment_to_createNoteFragment,
+                        bundle
+                    )
+                        Log.d("Home", "$note", null)
+                }
+
+                override fun delNote(note: Note) {
+                    viewModel.deleteNoteById(note.noteId)
+                    Log.d("Home", "$note", null)
                 }
             }
         )
@@ -63,14 +77,19 @@ class HomeFragment: Fragment(R.layout.home_screen){
             }
 
             listNote.adapter = adapter
-            listNote.layoutManager = LinearLayoutManager(requireContext())
-
+            if (lineOrColumns){
+                binding.listNote.layoutManager = LinearLayoutManager(requireContext())
+            } else {
+                binding.listNote.layoutManager = GridLayoutManager(requireContext(),2)
+            }
         }
     }
 
+
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.menu_home, menu)
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -82,8 +101,15 @@ class HomeFragment: Fragment(R.layout.home_screen){
             R.id.delete -> {
                 viewModel.deleteAll()
             }
+            R.id.line_or_columns ->{
+                lineOrColumns = !lineOrColumns
+            }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    companion object{
+        private const val ARGUMENT_NOTE_ID = "ARGUMENT_NOTE_ID"
     }
 }
 

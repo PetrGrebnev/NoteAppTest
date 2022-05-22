@@ -8,5 +8,5 @@ class HomeViewModel(private val repHome: Repository): ViewModel() {
 
     fun getNotes() = repHome.getAllNote()
     fun deleteAll() = repHome.deleteAll()
-//    fun deleteNoteById(note: Note) = repHome.deleteNoteByID(note)
+    fun deleteNoteById(noteId: Long) = repHome.deleteNoteByID(noteId)
 }

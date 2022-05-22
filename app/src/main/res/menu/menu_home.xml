@@ -8,7 +8,7 @@
         android:id="@+id/app_bar_search"
         android:title="search"
         app:actionViewClass="android.widget.SearchView"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/settings"
@@ -20,6 +20,12 @@
         android:id="@+id/delete"
         android:orderInCategory="2"
         android:title="Delete All"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/line_or_columns"
+        android:orderInCategory="3"
+        android:title="Columns"
         app:showAsAction="never"/>
 
 </menu>

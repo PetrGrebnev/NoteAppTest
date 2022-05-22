@@ -10,6 +10,9 @@ interface NoteDatabaseDAO {
     @Insert
     fun insert(note: Note)
 
+    @Update
+    fun updateNote(note: Note)
+
     @Query("SELECT * FROM note_table ORDER BY noteId DESC")
     fun getAllNotes(): LiveData<List<Note>>
 
@@ -19,6 +22,6 @@ interface NoteDatabaseDAO {
     @Query("SELECT * FROM note_table WHERE noteId=:noteId")
     fun getNoteById(noteId: Long): LiveData<Note?>
 
-//    @Query("SELECT * FROM note_table WHERE noteId IN (:note)")
-//    fun deleteNoteById(note: Note)
+    @Query("DELETE FROM note_table WHERE noteId=:noteId")
+    fun deleteNoteById(noteId: Long)
 }

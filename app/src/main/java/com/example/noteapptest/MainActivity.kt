@@ -1,31 +1,31 @@
 package com.example.noteapptest
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import androidx.navigation.NavController
-import androidx.navigation.Navigation
-import com.example.noteapptest.databinding.ActivityMainBinding
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
+import androidx.navigation.ui.setupActionBarWithNavController
+
 
 class MainActivity : AppCompatActivity() {
 
-    private val backStep: Boolean
-        get() = supportFragmentManager.backStackEntryCount > 0
+    private lateinit var appBarConfiguration: AppBarConfiguration
+    private lateinit var controller: NavController
 
+    @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        supportActionBar?.setDisplayHomeAsUpEnabled(backStep)
+        controller = findNavController(R.id.fragment_container)
+        appBarConfiguration = AppBarConfiguration(controller.graph)
+        setupActionBarWithNavController(controller, appBarConfiguration)
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        return if (backStep){
-            supportFragmentManager.popBackStack()
-            false
-        } else {
-            finish()
-            true
-        }
+        return controller.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
+
 }

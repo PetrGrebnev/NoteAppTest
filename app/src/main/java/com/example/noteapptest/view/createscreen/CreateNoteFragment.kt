@@ -1,5 +1,6 @@
 package com.example.noteapptest.view.createscreen
 
+import android.app.ActionBar
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -14,10 +15,12 @@ import com.example.noteapptest.*
 import com.example.noteapptest.databinding.CreateNoteTextBinding
 import com.example.noteapptest.view.homescreen.HomeFragmentDirections
 import java.lang.IllegalArgumentException
+import kotlin.properties.Delegates
 
 class CreateNoteFragment: Fragment(R.layout.create_note_text) {
 
     private lateinit var controller: NavController
+    private var noteId by Delegates.notNull<Long>()
 
     private var bindingCreateNoteText: CreateNoteTextBinding? = null
     private val binding
@@ -40,7 +43,6 @@ class CreateNoteFragment: Fragment(R.layout.create_note_text) {
         viewModel = ViewModelProvider(this, factory)[CreateNoteViewModel::class.java]
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
@@ -51,7 +53,7 @@ class CreateNoteFragment: Fragment(R.layout.create_note_text) {
         controller = Navigation.findNavController(view)
         bindingCreateNoteText = CreateNoteTextBinding.bind(view)
 
-        val noteId =arguments?.getLong(ARGUMENT_NOTE_ID) ?: INVALID_ID
+        noteId = arguments?.getLong(ARGUMENT_NOTE_ID) ?: INVALID_ID
         initCreateVieModel(noteId)
 
         viewModel.currentNote.observe(viewLifecycleOwner){
@@ -61,9 +63,8 @@ class CreateNoteFragment: Fragment(R.layout.create_note_text) {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.menu_create, menu)
-
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -71,7 +72,7 @@ class CreateNoteFragment: Fragment(R.layout.create_note_text) {
             R.id.save -> {
                 val title = binding.createTitleNote.text.toString()
                 val text = binding.createTextNote.text.toString()
-                viewModel.addNewNote(title, text)
+                viewModel.updateOrAddNote(title, text, noteId)
                 controller.popBackStack()
                 return true
             }

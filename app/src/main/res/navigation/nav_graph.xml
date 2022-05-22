@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.noteapptest.view.homescreen.HomeFragment"
-        android:label="home_screen"
+        android:label="Список заметок"
         tools:layout="@layout/home_screen" >
         <action
             android:id="@+id/action_homeFragment_to_createNoteFragment"
@@ -17,9 +17,13 @@
     <fragment
         android:id="@+id/createNoteFragment"
         android:name="com.example.noteapptest.view.createscreen.CreateNoteFragment"
-        android:label="CreateNoteFragment" >
+        android:label="Создать заметку" >
         <action
             android:id="@+id/action_createNoteFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <argument
+            android:name="NoteById"
+            app:argType="long"
+            android:defaultValue="-1L" />
     </fragment>
 </navigation>

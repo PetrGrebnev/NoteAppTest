@@ -13,6 +13,12 @@ class Repository(
         }
     }
 
+    fun updateNote(title: String, text: String, noteId: Long){
+        ioExecutor.execute{
+            db.updateNote(Note(title,text, noteId))
+        }
+    }
+
     fun getAllNote() = db.getAllNotes()
 
     fun deleteAll() {
@@ -23,4 +29,9 @@ class Repository(
 
     fun getNoteById(noteId: Long) = db.getNoteById(noteId)
 
+    fun deleteNoteByID(noteId: Long){
+        ioExecutor.execute {
+            db.deleteNoteById(noteId)
+        }
+    }
 }
