@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.noteapptest.Note
 import com.example.noteapptest.Repository
+import com.example.noteapptest.ResultState
 
 class CreateNoteViewModel(
     private val noteId: Long,
@@ -12,7 +13,7 @@ class CreateNoteViewModel(
     ): ViewModel() {
 
     private val _currentNote = MutableLiveData<Note?>()
-    val currentNote: LiveData<Note?> = rep.getNoteById(noteId)
+    val currentNote: LiveData<ResultState<Note?>> = rep.getNoteById(noteId)
 
     private var currentNoteCache: Note? = null
 

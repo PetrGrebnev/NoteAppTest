@@ -28,4 +28,26 @@
         android:title="Columns"
         app:showAsAction="never"/>
 
+    <group
+        android:id="@+id/sort"
+        android:orderInCategory="4"
+        android:menuCategory="container">
+
+        <item
+            android:id="@+id/sortA"
+            android:title="Sort A - Z"
+            app:showAsAction="never"/>
+
+        <item
+            android:id="@+id/sortB"
+            android:title="Sort Z - A"
+            app:showAsAction="never"/>
+
+        <item
+        android:id="@+id/sortC"
+        android:title="Sort New"
+        app:showAsAction="never"/>
+
+        </group>
+
 </menu>

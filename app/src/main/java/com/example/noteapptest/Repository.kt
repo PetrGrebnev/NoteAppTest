@@ -1,5 +1,8 @@
 package com.example.noteapptest
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import java.lang.RuntimeException
 import java.util.concurrent.ExecutorService
 
 class Repository(
@@ -27,7 +30,21 @@ class Repository(
         }
     }
 
-    fun getNoteById(noteId: Long) = db.getNoteById(noteId)
+    fun getNoteById(noteId: Long): LiveData<ResultState<Note?>>{
+        val result = MutableLiveData<ResultState<Note?>>(ResultState.Loading())
+
+        ioExecutor.execute(){
+            Thread.sleep(1000)
+
+            val note = db.getNoteById(noteId)
+            if(note != null){
+                result.postValue(ResultState.Success(note))
+            } else {
+                result.postValue(ResultState.Error(RuntimeException("New create note")))
+            }
+        }
+        return result
+    }
 
     fun deleteNoteByID(noteId: Long){
         ioExecutor.execute {

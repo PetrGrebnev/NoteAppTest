@@ -20,7 +20,7 @@ interface NoteDatabaseDAO {
     fun deleteAllNotes()
 
     @Query("SELECT * FROM note_table WHERE noteId=:noteId")
-    fun getNoteById(noteId: Long): LiveData<Note?>
+    fun getNoteById(noteId: Long): Note?
 
     @Query("DELETE FROM note_table WHERE noteId=:noteId")
     fun deleteNoteById(noteId: Long)

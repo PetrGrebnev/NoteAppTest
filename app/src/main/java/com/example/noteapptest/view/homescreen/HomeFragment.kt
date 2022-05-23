@@ -1,5 +1,6 @@
 package com.example.noteapptest.view.homescreen
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -53,7 +54,7 @@ class HomeFragment: Fragment(R.layout.home_screen){
         adapter = ListNoteAdapter(layoutInflater,
             object : OnNoteClickListener {
                 override fun onNoteClick(note: Note) {
-                    var bundle = bundleOf(ARGUMENT_NOTE_ID to note.noteId)
+                    val bundle = bundleOf(ARGUMENT_NOTE_ID to note.noteId)
                     controller.navigate(
                         R.id.action_homeFragment_to_createNoteFragment,
                         bundle
@@ -70,6 +71,9 @@ class HomeFragment: Fragment(R.layout.home_screen){
         viewModel.getNotes().observe(viewLifecycleOwner){
             adapter.setListNote(it)
         }
+        viewModel.columns.observe(viewLifecycleOwner){
+            lineOrColumns = it
+        }
 
         binding.apply {
             addFab.setOnClickListener {
@@ -78,9 +82,9 @@ class HomeFragment: Fragment(R.layout.home_screen){
 
             listNote.adapter = adapter
             if (lineOrColumns){
-                binding.listNote.layoutManager = LinearLayoutManager(requireContext())
+                listNote.layoutManager = LinearLayoutManager(requireContext())
             } else {
-                binding.listNote.layoutManager = GridLayoutManager(requireContext(),2)
+                listNote.layoutManager = GridLayoutManager(requireContext(),2)
             }
         }
     }
@@ -102,7 +106,11 @@ class HomeFragment: Fragment(R.layout.home_screen){
                 viewModel.deleteAll()
             }
             R.id.line_or_columns ->{
-                lineOrColumns = !lineOrColumns
+                if(lineOrColumns){
+                    viewModel.linesOrColumns(false)
+                } else {
+                    viewModel.linesOrColumns(true)
+                }
             }
         }
         return super.onOptionsItemSelected(item)
