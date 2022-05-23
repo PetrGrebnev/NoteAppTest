@@ -15,7 +15,7 @@ import com.example.noteapptest.databinding.CreateNoteTextBinding
 import kotlin.properties.Delegates
 import com.example.noteapptest.ResultState
 
-class CreateNoteFragment: Fragment(R.layout.create_note_text) {
+class CreateNoteFragment : Fragment(R.layout.create_note_text) {
 
     private lateinit var controller: NavController
     private var noteId by Delegates.notNull<Long>()
@@ -54,8 +54,8 @@ class CreateNoteFragment: Fragment(R.layout.create_note_text) {
         noteId = arguments?.getLong(ARGUMENT_NOTE_ID) ?: INVALID_ID
         initCreateVieModel(noteId)
 
-        viewModel.currentNote.observe(viewLifecycleOwner){
-            when(it) {
+        viewModel.currentNote.observe(viewLifecycleOwner) {
+            when (it) {
                 is ResultState.Error -> {
                     binding.errorTextView.visibility = View.VISIBLE
                     binding.errorTextView.text = "Создание новой заметки"
@@ -77,8 +77,6 @@ class CreateNoteFragment: Fragment(R.layout.create_note_text) {
                     binding.createTextNote.setText(it.data?.text)
                 }
             }
-//            binding.createTitleNote.setText(it?.title ?: "")
-//            binding.createTextNote.setText(it?.text ?: "")
         }
     }
 
@@ -88,7 +86,7 @@ class CreateNoteFragment: Fragment(R.layout.create_note_text) {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
+        when (item.itemId) {
             R.id.save -> {
                 val title = binding.createTitleNote.text.toString()
                 val text = binding.createTextNote.text.toString()
@@ -99,8 +97,8 @@ class CreateNoteFragment: Fragment(R.layout.create_note_text) {
         }
         return super.onOptionsItemSelected(item)
     }
-    
-    companion object{
+
+    companion object {
         private const val INVALID_ID = -1L
         private const val ARGUMENT_NOTE_ID = "ARGUMENT_NOTE_ID"
     }

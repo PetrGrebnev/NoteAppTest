@@ -24,6 +24,12 @@ class Repository(
 
     fun getAllNote() = db.getAllNotes()
 
+    fun getNoteSortByTitleDesc() = db.getNoteSortByTitleDesc()
+
+    fun getNoteSortByTitle() = db.getNoteSortByTitle()
+
+    fun getAllNotesById() = db.getAllNotesById()
+
     fun deleteAll() {
         ioExecutor.execute{
             db.deleteAllNotes()

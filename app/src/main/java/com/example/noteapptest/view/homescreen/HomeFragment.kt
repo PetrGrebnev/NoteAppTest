@@ -1,19 +1,17 @@
 package com.example.noteapptest.view.homescreen
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import androidx.navigation.ui.AppBarConfiguration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.noteapptest.*
@@ -22,7 +20,7 @@ import com.example.noteapptest.view.ListNoteAdapter
 import com.example.noteapptest.view.ListNoteAdapter.OnNoteClickListener
 
 
-class HomeFragment: Fragment(R.layout.home_screen){
+class HomeFragment : Fragment(R.layout.home_screen) {
 
     private lateinit var bindingHomeScreen: HomeScreenBinding
     private val binding
@@ -34,6 +32,10 @@ class HomeFragment: Fragment(R.layout.home_screen){
 
     private lateinit var viewModel: HomeViewModel
     private lateinit var viewModelFactory: HomeViewModelFactory
+
+    private var sortOrder = NoteSortOrder.NONE
+    private val observer: (List<Note>) -> Unit = { adapter.setListNote(it) }
+    private var noteLiveData: LiveData<List<Note>>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,7 +61,7 @@ class HomeFragment: Fragment(R.layout.home_screen){
                         R.id.action_homeFragment_to_createNoteFragment,
                         bundle
                     )
-                        Log.d("Home", "$note", null)
+                    Log.d("Home", "$note", null)
                 }
 
                 override fun delNote(note: Note) {
@@ -68,27 +70,31 @@ class HomeFragment: Fragment(R.layout.home_screen){
                 }
             }
         )
-        viewModel.getNotes().observe(viewLifecycleOwner){
-            adapter.setListNote(it)
-        }
-        viewModel.columns.observe(viewLifecycleOwner){
+        subscriberToNote()
+        viewModel.columns.observe(viewLifecycleOwner) {
             lineOrColumns = it
         }
 
         binding.apply {
             addFab.setOnClickListener {
-               controller.navigate(HomeFragmentDirections.actionHomeFragmentToCreateNoteFragment())
+                controller.navigate(HomeFragmentDirections.actionHomeFragmentToCreateNoteFragment())
             }
 
             listNote.adapter = adapter
-            if (lineOrColumns){
+            if (lineOrColumns) {
                 listNote.layoutManager = LinearLayoutManager(requireContext())
             } else {
-                listNote.layoutManager = GridLayoutManager(requireContext(),2)
+                listNote.layoutManager = GridLayoutManager(requireContext(), 2)
             }
         }
     }
 
+    private fun subscriberToNote() {
+        noteLiveData?.removeObserver(observer)
+        noteLiveData = viewModel.getNotes(sortOrder).also {
+            it.observe(viewLifecycleOwner, observer)
+        }
+    }
 
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -97,26 +103,48 @@ class HomeFragment: Fragment(R.layout.home_screen){
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
+        when (item.itemId) {
             R.id.settings -> {
                 controller.navigate(HomeFragmentDirections.actionHomeFragmentToCreateNoteFragment())
                 return true
             }
             R.id.delete -> {
                 viewModel.deleteAll()
+                return true
             }
-            R.id.line_or_columns ->{
-                if(lineOrColumns){
+            R.id.line_or_columns -> {
+                if (lineOrColumns) {
                     viewModel.linesOrColumns(false)
                 } else {
                     viewModel.linesOrColumns(true)
                 }
+                return true
+            }
+            R.id.sort_note_title_asc -> {
+                sortOrder = NoteSortOrder.TITLE_ASC
+                subscriberToNote()
+                return true
+            }
+            R.id.sort_note_title_desc -> {
+                sortOrder = NoteSortOrder.TITLE_DESC
+                subscriberToNote()
+                return true
+            }
+            R.id.sort_note_id_asc -> {
+                sortOrder = NoteSortOrder.ID_ASC
+                subscriberToNote()
+                return true
+            }
+            R.id.sort_note_id_desc -> {
+                sortOrder = NoteSortOrder.NONE
+                subscriberToNote()
+                return true
             }
         }
         return super.onOptionsItemSelected(item)
     }
 
-    companion object{
+    companion object {
         private const val ARGUMENT_NOTE_ID = "ARGUMENT_NOTE_ID"
     }
 }

@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.noteapptest.Note
 import com.example.noteapptest.R
@@ -14,35 +13,36 @@ import com.example.noteapptest.R
 class ListNoteAdapter(
     private val layoutInflater: LayoutInflater,
     private val onClickListener: OnNoteClickListener? = null
-): RecyclerView.Adapter<ListNoteAdapter.ViewHolder>(){
+) : RecyclerView.Adapter<ListNoteAdapter.ViewHolder>() {
 
     private var notes: MutableList<Note> = mutableListOf()
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setListNote(notes: List<Note>){
+    fun setListNote(notes: List<Note>) {
         this.notes = notes.toMutableList()
         notifyDataSetChanged()
     }
 
-    fun newNote(note: Note){
+    fun newNote(note: Note) {
         this.notes.add(note)
         notifyItemChanged(notes.size)
     }
 
-    interface OnNoteClickListener{
+    interface OnNoteClickListener {
         fun onNoteClick(note: Note)
         fun delNote(note: Note)
     }
 
-    inner class ViewHolder (itemView: View): RecyclerView.ViewHolder(itemView){
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val itemTitleNote: TextView = itemView.findViewById(R.id.item_title_note)
         val itemTextNote: TextView = itemView.findViewById(R.id.item_text_note)
         val itemDelBtn: ImageButton = itemView.findViewById(R.id.delBtn)
+
         init {
-            itemView.setOnClickListener{
+            itemView.setOnClickListener {
                 onClickListener?.onNoteClick(notes[adapterPosition])
             }
-            itemDelBtn.setOnClickListener{
+            itemDelBtn.setOnClickListener {
                 onClickListener?.delNote(notes[adapterPosition])
             }
         }

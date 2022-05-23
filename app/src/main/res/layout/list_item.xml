@@ -8,24 +8,24 @@
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:layout_margin="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_margin="5dp"
         android:background="@drawable/container_items"
-        tools:background="#ffff00"
-        android:padding="16dp">
+        android:orientation="vertical"
+        android:padding="16dp"
+        tools:background="#ffff00">
 
         <TextView
             android:id="@+id/item_title_note"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#000"
             android:ellipsize="end"
-            android:textSize="24sp"
             android:maxLines="1"
-            tools:text="Заголовок"
-            android:textStyle="bold"/>
+            android:textColor="#000"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            tools:text="Заголовок" />
 
         <TextView
             android:id="@+id/item_text_note"
@@ -42,9 +42,9 @@
             android:id="@+id/delBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/container_items"
             app:layout_anchor="@+id/item_title_note"
             app:layout_anchorGravity="end|center"
-            android:background="@drawable/container_items"
             app:srcCompat="@android:drawable/ic_delete" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
