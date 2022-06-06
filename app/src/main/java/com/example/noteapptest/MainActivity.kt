@@ -1,6 +1,5 @@
 package com.example.noteapptest
 
-import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.navigation.NavController
@@ -15,7 +14,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var controller: NavController
 
-    @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)

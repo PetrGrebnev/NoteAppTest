@@ -25,6 +25,7 @@ class HomeFragment : Fragment(R.layout.home_screen) {
     private lateinit var bindingHomeScreen: HomeScreenBinding
     private val binding
         get() = bindingHomeScreen
+
     private lateinit var controller: NavController
     private var lineOrColumns = true
 
@@ -115,6 +116,7 @@ class HomeFragment : Fragment(R.layout.home_screen) {
             R.id.line_or_columns -> {
                 if (lineOrColumns) {
                     viewModel.linesOrColumns(false)
+//                    StaggeredGridLayoutManager
                 } else {
                     viewModel.linesOrColumns(true)
                 }

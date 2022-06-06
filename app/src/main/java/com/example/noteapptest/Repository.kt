@@ -3,11 +3,13 @@ package com.example.noteapptest
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import java.lang.RuntimeException
+import java.util.concurrent.Executor
 import java.util.concurrent.ExecutorService
 
 class Repository(
     private val db: NoteDatabaseDAO,
-    private val ioExecutor: ExecutorService)
+    private val ioExecutor: Executor
+)
 {
 
     fun addNote(title: String, text: String){
